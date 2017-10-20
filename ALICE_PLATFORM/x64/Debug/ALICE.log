@@ -1,0 +1,46 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (ALICE_PLATFORM_withalgLib.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  sketch_two_rectangles.cpp
+  sketch_threeRigidCubes.cpp
+  sketch_rigidCubeSim.cpp
+  sketch_rbe_test.cpp
+  sketch_quickHull.cpp
+  sketch_printStackGenerator.cpp
+  sketch_populateGraph.cpp
+  sketch_populateGragh_v2.cpp
+  sketch_picking.cpp
+  sketch_metaMeshTester_graphOffset.cpp
+  sketch_lineSegment_intersect.cpp
+  sketch_libGizmo_test.cpp
+  sketch_renderMeshTest.cpp
+  sketch_printStackGenerator_2.cpp
+  sketch_polyHedralIntersection.cpp
+  sketch_polygonlIntersection_class.cpp
+  sketch_polyClipperTest.cpp
+  sketch_crossSection0.cpp
+  sketch_convexHull_test.cpp
+  sketch_convexHull_graham.cpp
+  Compiling...
+  sketch_contours_v2.cpp
+  sketch_contours.cpp
+  sketch_commandstackTest.cpp
+  sketch_barySubDivide.cpp
+  sketch_algLibtest.cpp
+  sketch_corep_v1.cpp
+  clipper.cpp
+  statistics.cpp
+  specialfunctions.cpp
+  solvers.cpp
+  optimization.cpp
+  linalg.cpp
+  interpolation.cpp
+  integration.cpp
+  fasttransforms.cpp
+  diffequations.cpp
+  dataanalysis.cpp
+  ap.cpp
+  alglibmisc.cpp
+  alglibinternal.cpp
+  Generating code
+  Finished generating code
+  ALICE.vcxproj -> C:\Users\shajay.b\Source\Repos\Alice2017\ALICE_PLATFORM\x64\Debug\ALICE_PLATFORM.exe
+  ALICE.vcxproj -> C:\Users\shajay.b\Source\Repos\Alice2017\ALICE_PLATFORM\x64\Debug\ALICE_PLATFORM.pdb (Full PDB)
