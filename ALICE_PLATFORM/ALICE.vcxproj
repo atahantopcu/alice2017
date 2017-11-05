@@ -85,7 +85,7 @@
     <ClCompile Include="src\userSrc\sketch_UR\sketch_polyClipperTest.cpp" />
     <ClCompile Include="src\userSrc\sketch_UR\sketch_polygonlIntersection_class.cpp" />
     <ClCompile Include="src\userSrc\sketch_UR\sketch_polyHedralIntersection.cpp" />
-    <ClCompile Include="src\userSrc\sketch_UR\sketch_printStackGenerator_2.cpp" />
+    <ClCompile Include="src\userSrc\sketch_UR\sketch_printStackGenerator_aacadia.cpp" />
     <ClCompile Include="src\userSrc\sketch_UR\sketch_renderMeshTest.cpp" />
     <ClCompile Include="src\userSrc\sketch_UR\sketch_libGizmo_test.cpp" />
     <ClCompile Include="src\userSrc\sketch_UR\sketch_lineSegment_intersect.cpp">

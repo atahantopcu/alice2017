@@ -100,22 +100,60 @@ public:
 		convertedToToroidal = true;
 	}
 
-	void smoothCurrentGraph()
+	void smoothCurrentGraph( double breakAngle )
 	{
-		MM.G.smooth_connectedVertices();
+		//MM.G.smooth_connectedVertices();
+		MM.G.smoothGraph(breakAngle);
 	}
 
-	void inflateCurrentGraph()
+	void inflateCurrentGraph( bool medialAxis = true )
 	{
 		//MM.G.inflateVertices();
 		double prevZ = G.positions[0].z;
 		for (int i = 0; i < G.n_v; i++)G.positions[i].z = MM.G.positions[0].z;
 		
-		MM.G.inflateWRTMedialAxis(G);
+		( medialAxis ) ? MM.G.inflateWRTMedialAxis(G) : MM.G.inflateVertices();
 
 		for (int i = 0; i < G.n_v; i++) G.positions[i].z = prevZ;
 	}
 
+	void transformCurrentGraphBy( double ang = 5 , int axis = 0 , vec trans = vec(0,0,0) )
+	{
+		Matrix4 T , T_inv;
+		plane Pl = MM.G.getCurrentPlane();
+		vec c, u, v, n;
+		n = Pl.normal;
+		c = MM.G.centroid();
+		u = (MM.G.positions[1] - MM.G.positions[0]).normalise();
+		v = u.cross(n).normalise();
+		n.normalise();
+
+		T.setColumn(0, u);
+		T.setColumn(1, v);
+		T.setColumn(2, n);
+		T.setColumn(3, c);
+
+		T_inv = T;
+		T_inv.invert();
+		for (int i = 0; i < MM.G.n_v; i++)MM.G.positions[i] = T_inv * MM.G.positions[i];
+
+		T_inv.identity();
+		if( axis == 0)T_inv.rotateX(ang);
+		if (axis == 1)T_inv.rotateY(ang);
+		if (axis == 2)T_inv.rotateZ(ang);
+		T_inv.translate( trans );
+
+		for (int i = 0; i < MM.G.n_v; i++)MM.G.positions[i] = T_inv * MM.G.positions[i];
+
+		for (int i = 0; i < MM.G.n_v; i++)MM.G.positions[i] = T * MM.G.positions[i];
+
+	}
+
+	void translateCurrentGraph()
+	{
+
+
+	}
 
 	////---------------------------------------------------- UTILITIES  --------------------------------------
 
@@ -131,10 +169,7 @@ public:
 
 	void addCurrentContourGraphToPrintStack( float layersize = 0.1 , float baseOffset = 1.0 )
 	{
-		//---------
-		for (int i = 0; i < MM.G.n_v; i++)
-			MM.G.positions[i].z -= layersize;// currentStackLayer * layersize + baseOffset;
-
+		
 		//---------
 		activeGraph AG;
 		AG = /** new */activeGraph();
@@ -155,6 +190,15 @@ public:
 		currentStackLayer++;
 		if (currentStackLayer >= 500 )currentStackLayer = 0;
 	}
+
+	void popPrintstack()
+	{
+		currentStackLayer--;
+		double z = PrintStack[currentStackLayer].positions[0].z;
+		for (int i = 0; i < MM.G.n_v; i++)MM.G.positions[i].z = z;// currentStackLayer * layersize + baseOffset;
+
+	}
+
 
 	void ConvertContourStackToPrintPath(pathImporter &path)
 	{
@@ -320,25 +364,30 @@ public:
 
 	////---------------------------------------------------- DISPLAY  --------------------------------------
 
+
+
 	void draw( bool showMesh = false, bool showMeshWire = false,bool showData = false )
 	{
 		
 
-		//else
-	/*	{
-			double l = 0.1;
-			glColor3f(l,l,l);
-			if (currentStackLayer > 0)
-			{
-				for (int j = 0; j < PrintStack[0].n_v; j++)
-				{
-					for (int i = 1; i < currentStackLayer; i++)
-					{
-						drawLine(PrintStack[i].positions[j], PrintStack[i - 1].positions[j]);
-					}
-				}
-			}
-		}*/
+		{
+			Matrix4 T;
+			plane Pl = MM.G.getCurrentPlane();
+			vec c, u, v, n;
+			n = Pl.normal;
+			c = MM.G.centroid();
+			u = (MM.G.positions[1] - MM.G.positions[0]).normalise();
+			v = u.cross(n).normalise();
+			n.normalise();
+
+			T.setColumn(0, u);
+			T.setColumn(1, v);
+			T.setColumn(2, n);
+			T.setColumn(3, c);
+
+			drawFrame(T);
+		}
+		
 		
 		wireFrameOn();
 
@@ -363,21 +412,7 @@ public:
 		wireFrameOff();
 
 		//----------------- drawDataGridMesh
-		if(showData)
-		{
-			glPointSize(5);
-			glLineWidth(3);
-			for (int i = 0; i < MM.n_v; i++)
-			{
-
-				vec4 clr = getColour(MM.scalars[i], dMin, dMax);
-				glColor3f(clr.r, clr.g, clr.b);
-				//drawPoint(MM.positions[i]);
-				drawLine(MM.positions[i], MM.positions[i]+vec(.01,0.01,0.01));
-			}
-			glPointSize(1);
-			glLineWidth(1);
-		}
+		if(showData)MM.display(showData, true, false);
 
 		//----------------- drawDataGridMesh
 		if (showMesh)LM.draw(showMeshWire);

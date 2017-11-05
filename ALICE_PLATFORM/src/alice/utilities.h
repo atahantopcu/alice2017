@@ -296,6 +296,26 @@ void drawMatrix(Matrix4 &T, vec str)
 
 }
 
+
+void drawFrame(Matrix4 &t)
+{
+
+	vec u, v, n, c;
+	u = t.getColumn(0);
+	v = t.getColumn(1);
+	n = t.getColumn(2);
+	c = t.getColumn(3);
+
+	glPointSize(5);
+	drawPoint(c);
+	glPointSize(1);
+
+	glColor3f(1, 0, 0); drawLine(c, c + u);
+	glColor3f(0, 1, 0); drawLine(c, c + v);
+	glColor3f(0, 0, 1); drawLine(c, c + n);
+
+}
+
 vec rayPlaneIntersection(vec P0, vec ray, vec N, float d = 0)
 {
 	double t = -(P0 * N + d) / (ray * N);

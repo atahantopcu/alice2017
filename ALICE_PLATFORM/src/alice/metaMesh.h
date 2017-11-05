@@ -297,24 +297,14 @@ public:
 				e1 = G.edges[j].vStr->id;
 				float Di = distanceAndNearestPointOnEdge( G.positions[e0], G.positions[e1], positions[i], pt);
 
-				if (!blend)
-				{
-					dChk = Di;
-					d = MIN(dChk, d);
-				}
-				else
-				{
-					dChk += 1.0 / (pow((Di + 0.01), 2.0));
-					d = dChk;
-				}
-
+				
+				dChk += 1.0 / (pow((Di + 0.01), 2.0));
+				d = dChk;
 
 			}
 
-			//d = dChk;
 			d = ofClamp(d, clampMin, clampMax);
 			scalars[i] = d;
-
 		}
 	}
 
@@ -493,7 +483,7 @@ public:
 			glLineWidth(5);
 			glColor3f(clr.r, clr.g, clr.b);
 			//drawLine(positions[i], positions[i]*1.001);;// 
-			
+			glPointSize(5.0);
 			drawPoint(positions[i]);
 		}
 		glPointSize(1.0);

@@ -566,12 +566,36 @@ public:
 
 		plane PL = getCurrentPlane();
 		// vertices
+		//for (int i = 0; i < n_v; i++)
+		//{
+
+		//	char s[200];
+		//	sprintf(s, "%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f", positions[i].x * 1, positions[i].y * 1, positions[i].z * 1,
+		//													PL.normal.x * 1, PL.normal.y * 1, PL.normal.z * 1);//(vertices[i].n_e == 1) ? 1 : 0
+
+		//	myfile << s << endl;
+		//}
+
+		vec p, u, v, n;
+		n = PL.normal;
+		n.normalise();
+		double scale = 1.0;
+
 		for (int i = 0; i < n_v; i++)
 		{
+			p = positions[i];
+			
+			u = ( positions[(i + 1) % n_v] - positions[i] ).normalise();
+			v = n.cross(u).normalise();
 
-			char s[200];
-			sprintf(s, "%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f", positions[i].x * 1, positions[i].y * 1, positions[i].z * 1,
-															PL.normal.x * 1, PL.normal.y * 1, PL.normal.z * 1);//(vertices[i].n_e == 1) ? 1 : 0
+
+			char s[300];
+			sprintf(s, "%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f,%1.4f", 
+					u.x * scale, u.y * scale, u.z * scale,
+					v.x * scale, v.y * scale, v.z * scale,
+					n.x * scale, n.y * scale, n.z * scale,
+					p.x * scale, p.y * scale, p.z * scale
+				);//(vertices[i].n_e == 1) ? 1 : 0
 
 			myfile << s << endl;
 		}
